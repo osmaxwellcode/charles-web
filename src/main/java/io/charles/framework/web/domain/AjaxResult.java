@@ -1,7 +1,8 @@
 package io.charles.framework.web.domain;
 
-import io.charles.common.constant.HttpStatus;
+
 import io.charles.common.utils.StringUtils;
+import org.springframework.http.HttpStatus;
 
 import java.util.HashMap;
 
@@ -72,7 +73,7 @@ public class AjaxResult extends HashMap<String, Object> {
      * @return 成功消息
      */
     public static AjaxResult success(Object data) {
-        return AjaxResult.success("操作成功" , data);
+        return AjaxResult.success("操作成功", data);
     }
 
     /**
@@ -93,7 +94,7 @@ public class AjaxResult extends HashMap<String, Object> {
      * @return 成功消息
      */
     public static AjaxResult success(String msg, Object data) {
-        return new AjaxResult(HttpStatus.SUCCESS, msg, data);
+        return new AjaxResult(HttpStatus.OK.value(), msg, data);
     }
 
     /**
@@ -123,7 +124,7 @@ public class AjaxResult extends HashMap<String, Object> {
      * @return 警告消息
      */
     public static AjaxResult error(String msg, Object data) {
-        return new AjaxResult(HttpStatus.ERROR, msg, data);
+        return new AjaxResult(HttpStatus.INTERNAL_SERVER_ERROR.value(), msg, data);
     }
 
     /**

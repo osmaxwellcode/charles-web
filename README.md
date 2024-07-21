@@ -75,4 +75,4 @@
 
 **## 联系**
 
-如果您发现了什么bug，或者有什么界面建议或意见，欢迎 [issue](https://github.com/fuzui/RuoYi-Antdv/issues)
+如果您发现了什么bug，或者有什么界面建议或意见，欢迎 [issue](https://github.com/osmaxwellcode/charles-web/issues)

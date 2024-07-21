@@ -1,8 +1,8 @@
 package io.charles.common.utils;
 
-import io.charles.common.constant.HttpStatus;
 import io.charles.common.exception.ServiceException;
 import io.charles.framework.security.LoginUser;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -21,7 +21,7 @@ public class SecurityUtils {
         try {
             return getLoginUser().getUserId();
         } catch (Exception e) {
-            throw new ServiceException("获取用户ID异常" , HttpStatus.UNAUTHORIZED);
+            throw new ServiceException("获取用户ID异常" , HttpStatus.UNAUTHORIZED.value());
         }
     }
 
@@ -32,7 +32,7 @@ public class SecurityUtils {
         try {
             return getLoginUser().getDeptId();
         } catch (Exception e) {
-            throw new ServiceException("获取部门ID异常" , HttpStatus.UNAUTHORIZED);
+            throw new ServiceException("获取部门ID异常" , HttpStatus.UNAUTHORIZED.value());
         }
     }
 
@@ -43,7 +43,7 @@ public class SecurityUtils {
         try {
             return getLoginUser().getUsername();
         } catch (Exception e) {
-            throw new ServiceException("获取用户账户异常" , HttpStatus.UNAUTHORIZED);
+            throw new ServiceException("获取用户账户异常" , HttpStatus.UNAUTHORIZED.value());
         }
     }
 
@@ -54,7 +54,7 @@ public class SecurityUtils {
         try {
             return (LoginUser) getAuthentication().getPrincipal();
         } catch (Exception e) {
-            throw new ServiceException("获取用户信息异常" , HttpStatus.UNAUTHORIZED);
+            throw new ServiceException("获取用户信息异常" , HttpStatus.UNAUTHORIZED.value());
         }
     }
 

@@ -1,6 +1,5 @@
 package io.charles.framework.aspectj;
 
-import io.charles.common.enums.HttpMethod;
 import io.charles.common.utils.JsonUtil;
 import io.charles.common.utils.SecurityUtils;
 import io.charles.common.utils.ServletUtils;
@@ -21,6 +20,7 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.multipart.MultipartFile;
@@ -145,7 +145,7 @@ public class LogAspect {
      */
     private void setRequestValue(JoinPoint joinPoint, SysOperLog operLog) throws Exception {
         String requestMethod = operLog.getRequestMethod();
-        if (HttpMethod.PUT.name().equals(requestMethod) || HttpMethod.POST.name().equals(requestMethod)) {
+        if (HttpMethod.PUT.name().equalsIgnoreCase(requestMethod) || HttpMethod.POST.name().equalsIgnoreCase(requestMethod)) {
             String params = argsArrayToString(joinPoint.getArgs());
             operLog.setOperParam(StringUtils.substring(params, 0, 2000));
         } else {

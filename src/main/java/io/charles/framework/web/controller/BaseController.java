@@ -2,7 +2,6 @@ package io.charles.framework.web.controller;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import io.charles.common.constant.HttpStatus;
 import io.charles.common.utils.DateUtils;
 import io.charles.common.utils.SecurityUtils;
 import io.charles.common.utils.StringUtils;
@@ -14,6 +13,7 @@ import io.charles.framework.web.page.TableDataInfo;
 import io.charles.framework.web.page.TableSupport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 
@@ -74,7 +74,7 @@ public class BaseController {
     @SuppressWarnings({"rawtypes", "unchecked"})
     protected TableDataInfo getDataTable(List<?> list) {
         TableDataInfo rspData = new TableDataInfo();
-        rspData.setCode(HttpStatus.SUCCESS);
+        rspData.setCode(HttpStatus.OK.value());
         rspData.setMsg("查询成功");
         rspData.setRows(list);
         rspData.setTotal(new PageInfo(list).getTotal());

@@ -1,7 +1,6 @@
 package io.charles.framework.security.handle;
 
 import io.charles.common.constant.Constants;
-import io.charles.common.constant.HttpStatus;
 import io.charles.common.utils.JsonUtil;
 import io.charles.common.utils.ServletUtils;
 import io.charles.common.utils.StringUtils;
@@ -12,6 +11,7 @@ import io.charles.framework.security.service.TokenService;
 import io.charles.framework.web.domain.AjaxResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 
@@ -46,6 +46,6 @@ public class LogoutSuccessHandlerImpl implements LogoutSuccessHandler {
             // 记录用户退出日志
             AsyncManager.me().execute(AsyncFactory.recordLogininfor(userName, Constants.LOGOUT, "退出成功"));
         }
-        ServletUtils.renderString(response, JsonUtil.toJson(AjaxResult.error(HttpStatus.SUCCESS, "退出成功")));
+        ServletUtils.renderString(response, JsonUtil.toJson(AjaxResult.error(HttpStatus.OK.value(), "退出成功")));
     }
 }
