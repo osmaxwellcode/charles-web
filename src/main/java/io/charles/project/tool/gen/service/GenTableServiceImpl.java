@@ -15,6 +15,7 @@ import io.charles.project.tool.gen.mapper.GenTableMapper;
 import io.charles.project.tool.gen.util.GenUtils;
 import io.charles.project.tool.gen.util.VelocityInitializer;
 import io.charles.project.tool.gen.util.VelocityUtils;
+import lombok.RequiredArgsConstructor;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.velocity.Template;
@@ -43,18 +44,13 @@ import java.util.zip.ZipOutputStream;
  *
  * @author charles
  */
+@RequiredArgsConstructor(onConstructor_ = @Autowired)
 @Service
 public class GenTableServiceImpl implements IGenTableService {
     private static final Logger log = LoggerFactory.getLogger(GenTableServiceImpl.class);
-
-    @Autowired
-    private GenTableMapper genTableMapper;
-
-    @Autowired
-    private GenTableColumnMapper genTableColumnMapper;
-
-    @Autowired
-    private ObjectMapper objectMapper;
+    private final GenTableMapper genTableMapper;
+    private final GenTableColumnMapper genTableColumnMapper;
+    private final ObjectMapper objectMapper;
 
     /**
      * 获取代码生成地址

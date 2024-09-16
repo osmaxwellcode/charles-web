@@ -9,6 +9,7 @@ import io.charles.framework.web.domain.AjaxResult;
 import io.charles.framework.web.page.TableDataInfo;
 import io.charles.project.system.domain.SysPost;
 import io.charles.project.system.service.ISysPostService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
@@ -21,11 +22,11 @@ import java.util.List;
  *
  * @author charles
  */
+@RequiredArgsConstructor(onConstructor_ = @Autowired)
 @RestController
 @RequestMapping("/system/post")
 public class SysPostController extends BaseController {
-    @Autowired
-    private ISysPostService postService;
+    private final ISysPostService postService;
 
     /**
      * 获取岗位列表
@@ -38,7 +39,7 @@ public class SysPostController extends BaseController {
         return getDataTable(list);
     }
 
-    @Log(title = "岗位管理" , businessType = BusinessType.EXPORT)
+    @Log(title = "岗位管理", businessType = BusinessType.EXPORT)
     @PreAuthorize("@ss.hasPermi('system:post:export')")
     @GetMapping("/export")
     public AjaxResult export(SysPost post) {
@@ -60,7 +61,7 @@ public class SysPostController extends BaseController {
      * 新增岗位
      */
     @PreAuthorize("@ss.hasPermi('system:post:add')")
-    @Log(title = "岗位管理" , businessType = BusinessType.INSERT)
+    @Log(title = "岗位管理", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@Validated @RequestBody SysPost post) {
         if (UserConstants.NOT_UNIQUE.equals(postService.checkPostNameUnique(post))) {
@@ -76,7 +77,7 @@ public class SysPostController extends BaseController {
      * 修改岗位
      */
     @PreAuthorize("@ss.hasPermi('system:post:edit')")
-    @Log(title = "岗位管理" , businessType = BusinessType.UPDATE)
+    @Log(title = "岗位管理", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@Validated @RequestBody SysPost post) {
         if (UserConstants.NOT_UNIQUE.equals(postService.checkPostNameUnique(post))) {
@@ -92,7 +93,7 @@ public class SysPostController extends BaseController {
      * 删除岗位
      */
     @PreAuthorize("@ss.hasPermi('system:post:remove')")
-    @Log(title = "岗位管理" , businessType = BusinessType.DELETE)
+    @Log(title = "岗位管理", businessType = BusinessType.DELETE)
     @DeleteMapping("/{postIds}")
     public AjaxResult remove(@PathVariable Long[] postIds) {
         return toAjax(postService.deletePostByIds(postIds));

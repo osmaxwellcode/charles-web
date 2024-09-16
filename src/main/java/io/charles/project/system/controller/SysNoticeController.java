@@ -7,6 +7,7 @@ import io.charles.framework.web.domain.AjaxResult;
 import io.charles.framework.web.page.TableDataInfo;
 import io.charles.project.system.domain.SysNotice;
 import io.charles.project.system.service.ISysNoticeService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
@@ -19,11 +20,11 @@ import java.util.List;
  *
  * @author charles
  */
+@RequiredArgsConstructor(onConstructor_ = @Autowired)
 @RestController
 @RequestMapping("/system/notice")
 public class SysNoticeController extends BaseController {
-    @Autowired
-    private ISysNoticeService noticeService;
+    private final ISysNoticeService noticeService;
 
     /**
      * 获取通知公告列表
@@ -49,7 +50,7 @@ public class SysNoticeController extends BaseController {
      * 新增通知公告
      */
     @PreAuthorize("@ss.hasPermi('system:notice:add')")
-    @Log(title = "通知公告" , businessType = BusinessType.INSERT)
+    @Log(title = "通知公告", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@Validated @RequestBody SysNotice notice) {
         notice.setCreateBy(getUsername());
@@ -60,7 +61,7 @@ public class SysNoticeController extends BaseController {
      * 修改通知公告
      */
     @PreAuthorize("@ss.hasPermi('system:notice:edit')")
-    @Log(title = "通知公告" , businessType = BusinessType.UPDATE)
+    @Log(title = "通知公告", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@Validated @RequestBody SysNotice notice) {
         notice.setUpdateBy(getUsername());
@@ -71,7 +72,7 @@ public class SysNoticeController extends BaseController {
      * 删除通知公告
      */
     @PreAuthorize("@ss.hasPermi('system:notice:remove')")
-    @Log(title = "通知公告" , businessType = BusinessType.DELETE)
+    @Log(title = "通知公告", businessType = BusinessType.DELETE)
     @DeleteMapping("/{noticeIds}")
     public AjaxResult remove(@PathVariable Long[] noticeIds) {
         return toAjax(noticeService.deleteNoticeByIds(noticeIds));

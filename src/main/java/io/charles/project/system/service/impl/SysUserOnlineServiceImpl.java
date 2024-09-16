@@ -4,6 +4,8 @@ import io.charles.common.utils.StringUtils;
 import io.charles.framework.security.LoginUser;
 import io.charles.project.monitor.domain.SysUserOnline;
 import io.charles.project.system.service.ISysUserOnlineService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -11,6 +13,7 @@ import org.springframework.stereotype.Service;
  *
  * @author charles
  */
+@RequiredArgsConstructor(onConstructor_ = @Autowired)
 @Service
 public class SysUserOnlineServiceImpl implements ISysUserOnlineService {
     /**

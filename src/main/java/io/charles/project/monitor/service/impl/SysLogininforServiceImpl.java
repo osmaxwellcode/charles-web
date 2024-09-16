@@ -3,6 +3,7 @@ package io.charles.project.monitor.service.impl;
 import io.charles.project.monitor.domain.SysLogininfor;
 import io.charles.project.monitor.mapper.SysLogininforMapper;
 import io.charles.project.monitor.service.ISysLogininforService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,11 +14,10 @@ import java.util.List;
  *
  * @author charles
  */
+@RequiredArgsConstructor(onConstructor_ = @Autowired)
 @Service
 public class SysLogininforServiceImpl implements ISysLogininforService {
-
-    @Autowired
-    private SysLogininforMapper logininforMapper;
+    private final SysLogininforMapper logininforMapper;
 
     /**
      * 新增系统登录日志

@@ -8,6 +8,7 @@ import io.charles.framework.config.AppProperties;
 import io.charles.framework.ehcache.EhcacheCache;
 import io.charles.framework.web.domain.AjaxResult;
 import io.charles.project.system.service.ISysConfigService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.FastByteArrayOutputStream;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,22 +26,14 @@ import java.util.concurrent.TimeUnit;
  *
  * @author charles
  */
+@RequiredArgsConstructor(onConstructor_ = @Autowired)
 @RestController
 public class CaptchaController {
-    @Resource(name = "captchaProducer")
-    private Producer captchaProducer;
-
-    @Resource(name = "captchaProducerMath")
-    private Producer captchaProducerMath;
-
-    @Autowired
-    private EhcacheCache ehcacheCache;
-
-    @Autowired
-    private AppProperties appProperties;
-
-    @Autowired
-    private ISysConfigService configService;
+    private final Producer captchaProducer;
+    private final Producer captchaProducerMath;
+    private final EhcacheCache ehcacheCache;
+    private final AppProperties appProperties;
+    private final ISysConfigService configService;
 
     /**
      * 生成验证码

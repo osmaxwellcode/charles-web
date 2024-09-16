@@ -9,6 +9,7 @@ import io.charles.framework.web.domain.AjaxResult;
 import io.charles.project.system.domain.SysMenu;
 import io.charles.project.system.domain.SysUser;
 import io.charles.project.system.service.ISysMenuService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,16 +24,12 @@ import java.util.Set;
  *
  * @author charles
  */
+@RequiredArgsConstructor(onConstructor_ = @Autowired)
 @RestController
 public class SysLoginController {
-    @Autowired
-    private SysLoginService loginService;
-
-    @Autowired
-    private ISysMenuService menuService;
-
-    @Autowired
-    private SysPermissionService permissionService;
+    private final SysLoginService loginService;
+    private final ISysMenuService menuService;
+    private final SysPermissionService permissionService;
 
     /**
      * 登录方法
@@ -63,9 +60,9 @@ public class SysLoginController {
         // 权限集合
         Set<String> permissions = permissionService.getMenuPermission(user);
         AjaxResult ajax = AjaxResult.success();
-        ajax.put("user" , user);
-        ajax.put("roles" , roles);
-        ajax.put("permissions" , permissions);
+        ajax.put("user", user);
+        ajax.put("roles", roles);
+        ajax.put("permissions", permissions);
         return ajax;
     }
 

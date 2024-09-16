@@ -14,6 +14,7 @@ import io.charles.project.system.mapper.SysMenuMapper;
 import io.charles.project.system.mapper.SysRoleMapper;
 import io.charles.project.system.mapper.SysRoleMenuMapper;
 import io.charles.project.system.service.ISysMenuService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,18 +26,13 @@ import java.util.stream.Collectors;
  *
  * @author charles
  */
+@RequiredArgsConstructor(onConstructor_ = @Autowired)
 @Service
 public class SysMenuServiceImpl implements ISysMenuService {
     public static final String PREMISSION_STRING = "perms[\"{0}\"]";
-
-    @Autowired
-    private SysMenuMapper menuMapper;
-
-    @Autowired
-    private SysRoleMapper roleMapper;
-
-    @Autowired
-    private SysRoleMenuMapper roleMenuMapper;
+    private final SysMenuMapper menuMapper;
+    private final SysRoleMapper roleMapper;
+    private final SysRoleMenuMapper roleMenuMapper;
 
     /**
      * 根据用户查询系统菜单列表

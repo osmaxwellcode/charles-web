@@ -9,6 +9,7 @@ import io.charles.project.system.domain.*;
 import io.charles.project.system.mapper.*;
 import io.charles.project.system.service.ISysConfigService;
 import io.charles.project.system.service.ISysUserService;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.aop.framework.AopContext;
@@ -24,27 +25,16 @@ import java.util.List;
  *
  * @author charles
  */
+@RequiredArgsConstructor(onConstructor_ = @Autowired)
 @Service
 public class SysUserServiceImpl implements ISysUserService {
     private static final Logger log = LoggerFactory.getLogger(SysUserServiceImpl.class);
-
-    @Autowired
-    private SysUserMapper userMapper;
-
-    @Autowired
-    private SysRoleMapper roleMapper;
-
-    @Autowired
-    private SysPostMapper postMapper;
-
-    @Autowired
-    private SysUserRoleMapper userRoleMapper;
-
-    @Autowired
-    private SysUserPostMapper userPostMapper;
-
-    @Autowired
-    private ISysConfigService configService;
+    private final SysUserMapper userMapper;
+    private final SysRoleMapper roleMapper;
+    private final SysPostMapper postMapper;
+    private final SysUserRoleMapper userRoleMapper;
+    private final SysUserPostMapper userPostMapper;
+    private final ISysConfigService configService;
 
     /**
      * 根据条件分页查询用户列表

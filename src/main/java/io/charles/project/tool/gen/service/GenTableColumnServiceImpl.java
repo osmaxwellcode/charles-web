@@ -3,6 +3,7 @@ package io.charles.project.tool.gen.service;
 import io.charles.common.core.text.Convert;
 import io.charles.project.tool.gen.domain.GenTableColumn;
 import io.charles.project.tool.gen.mapper.GenTableColumnMapper;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,10 +14,10 @@ import java.util.List;
  *
  * @author charles
  */
+@RequiredArgsConstructor(onConstructor_ = @Autowired)
 @Service
 public class GenTableColumnServiceImpl implements IGenTableColumnService {
-    @Autowired
-    private GenTableColumnMapper genTableColumnMapper;
+    private final GenTableColumnMapper genTableColumnMapper;
 
     /**
      * 查询业务字段列表

@@ -3,6 +3,7 @@ package io.charles.project.monitor.service.impl;
 import io.charles.project.monitor.domain.SysOperLog;
 import io.charles.project.monitor.mapper.SysOperLogMapper;
 import io.charles.project.monitor.service.ISysOperLogService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,10 +14,10 @@ import java.util.List;
  *
  * @author charles
  */
+@RequiredArgsConstructor(onConstructor_ = @Autowired)
 @Service
 public class SysOperLogServiceImpl implements ISysOperLogService {
-    @Autowired
-    private SysOperLogMapper operLogMapper;
+    private final SysOperLogMapper operLogMapper;
 
     /**
      * 新增操作日志

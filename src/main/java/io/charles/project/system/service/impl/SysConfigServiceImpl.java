@@ -9,6 +9,7 @@ import io.charles.framework.ehcache.EhcacheCache;
 import io.charles.project.system.domain.SysConfig;
 import io.charles.project.system.mapper.SysConfigMapper;
 import io.charles.project.system.service.ISysConfigService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,13 +22,11 @@ import java.util.List;
  *
  * @author charles
  */
+@RequiredArgsConstructor(onConstructor_ = @Autowired)
 @Service
 public class SysConfigServiceImpl implements ISysConfigService {
-    @Autowired
-    private SysConfigMapper configMapper;
-
-    @Autowired
-    private EhcacheCache ehcacheCache;
+    private final SysConfigMapper configMapper;
+    private final EhcacheCache ehcacheCache;
 
     /**
      * 项目启动时，初始化参数到缓存
@@ -138,7 +137,7 @@ public class SysConfigServiceImpl implements ISysConfigService {
         for (Long configId : configIds) {
             SysConfig config = selectConfigById(configId);
             if (StringUtils.equals(UserConstants.YES, config.getConfigType())) {
-                throw new ServiceException(String.format("内置参数【%1$s】不能删除 " , config.getConfigKey()));
+                throw new ServiceException(String.format("内置参数【%1$s】不能删除 ", config.getConfigKey()));
             }
             configMapper.deleteConfigById(configId);
             ehcacheCache.deleteObject(getCacheKey(config.getConfigKey()));

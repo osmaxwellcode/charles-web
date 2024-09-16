@@ -1,7 +1,7 @@
 <template>
   <div :class="wrpCls">
     <a-space size="middle">
-      <a-tooltip placement="bottom">
+      <!-- <a-tooltip placement="bottom">
         <template slot="title">
           源码地址
         </template>
@@ -12,7 +12,7 @@
           文档地址
         </template>
         <a-icon type="question-circle-o" @click="toDoc" :style="{ fontSize: '20px' }"/>
-      </a-tooltip>
+      </a-tooltip> -->
       <screenfull />
       <notice-icon v-hasPermi="['system:notice:list']" />
       <avatar-dropdown :menu="showMenu" :current-user="currentUser" :class="prefixCls" />
@@ -58,8 +58,8 @@ export default {
     return {
       showMenu: true,
       currentUser: {},
-      docUrl: 'https://docs.geekera.cn/RuoYi-Antdv/',
-      githubUrl: 'https://github.com/fuzui/RuoYi-Antdv'
+      docUrl: '',
+      githubUrl: ''
     }
   },
   computed: {

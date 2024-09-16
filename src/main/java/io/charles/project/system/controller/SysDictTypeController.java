@@ -9,6 +9,7 @@ import io.charles.framework.web.domain.AjaxResult;
 import io.charles.framework.web.page.TableDataInfo;
 import io.charles.project.system.domain.SysDictType;
 import io.charles.project.system.service.ISysDictTypeService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
@@ -21,11 +22,11 @@ import java.util.List;
  *
  * @author charles
  */
+@RequiredArgsConstructor(onConstructor_ = @Autowired)
 @RestController
 @RequestMapping("/system/dict/type")
 public class SysDictTypeController extends BaseController {
-    @Autowired
-    private ISysDictTypeService dictTypeService;
+    private final ISysDictTypeService dictTypeService;
 
     @PreAuthorize("@ss.hasPermi('system:dict:list')")
     @GetMapping("/list")
@@ -35,7 +36,7 @@ public class SysDictTypeController extends BaseController {
         return getDataTable(list);
     }
 
-    @Log(title = "字典类型" , businessType = BusinessType.EXPORT)
+    @Log(title = "字典类型", businessType = BusinessType.EXPORT)
     @PreAuthorize("@ss.hasPermi('system:dict:export')")
     @GetMapping("/export")
     public AjaxResult export(SysDictType dictType) {
@@ -57,7 +58,7 @@ public class SysDictTypeController extends BaseController {
      * 新增字典类型
      */
     @PreAuthorize("@ss.hasPermi('system:dict:add')")
-    @Log(title = "字典类型" , businessType = BusinessType.INSERT)
+    @Log(title = "字典类型", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@Validated @RequestBody SysDictType dict) {
         if (UserConstants.NOT_UNIQUE.equals(dictTypeService.checkDictTypeUnique(dict))) {
@@ -71,7 +72,7 @@ public class SysDictTypeController extends BaseController {
      * 修改字典类型
      */
     @PreAuthorize("@ss.hasPermi('system:dict:edit')")
-    @Log(title = "字典类型" , businessType = BusinessType.UPDATE)
+    @Log(title = "字典类型", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@Validated @RequestBody SysDictType dict) {
         if (UserConstants.NOT_UNIQUE.equals(dictTypeService.checkDictTypeUnique(dict))) {
@@ -85,7 +86,7 @@ public class SysDictTypeController extends BaseController {
      * 删除字典类型
      */
     @PreAuthorize("@ss.hasPermi('system:dict:remove')")
-    @Log(title = "字典类型" , businessType = BusinessType.DELETE)
+    @Log(title = "字典类型", businessType = BusinessType.DELETE)
     @DeleteMapping("/{dictIds}")
     public AjaxResult remove(@PathVariable Long[] dictIds) {
         dictTypeService.deleteDictTypeByIds(dictIds);
@@ -96,7 +97,7 @@ public class SysDictTypeController extends BaseController {
      * 刷新字典缓存
      */
     @PreAuthorize("@ss.hasPermi('system:dict:remove')")
-    @Log(title = "字典类型" , businessType = BusinessType.CLEAN)
+    @Log(title = "字典类型", businessType = BusinessType.CLEAN)
     @DeleteMapping("/refreshCache")
     public AjaxResult refreshCache() {
         dictTypeService.resetDictCache();

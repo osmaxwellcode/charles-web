@@ -7,6 +7,7 @@ import io.charles.project.system.domain.SysPost;
 import io.charles.project.system.mapper.SysPostMapper;
 import io.charles.project.system.mapper.SysUserPostMapper;
 import io.charles.project.system.service.ISysPostService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,13 +18,11 @@ import java.util.List;
  *
  * @author charles
  */
+@RequiredArgsConstructor(onConstructor_ = @Autowired)
 @Service
 public class SysPostServiceImpl implements ISysPostService {
-    @Autowired
-    private SysPostMapper postMapper;
-
-    @Autowired
-    private SysUserPostMapper userPostMapper;
+    private final SysPostMapper postMapper;
+    private final SysUserPostMapper userPostMapper;
 
     /**
      * 查询岗位信息集合
@@ -134,7 +133,7 @@ public class SysPostServiceImpl implements ISysPostService {
         for (Long postId : postIds) {
             SysPost post = selectPostById(postId);
             if (countUserPostById(postId) > 0) {
-                throw new ServiceException(String.format("%1$s已分配,不能删除" , post.getPostName()));
+                throw new ServiceException(String.format("%1$s已分配,不能删除", post.getPostName()));
             }
         }
         return postMapper.deletePostByIds(postIds);

@@ -3,6 +3,7 @@ package io.charles.project.system.service.impl;
 import io.charles.project.system.domain.SysNotice;
 import io.charles.project.system.mapper.SysNoticeMapper;
 import io.charles.project.system.service.ISysNoticeService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,10 +14,10 @@ import java.util.List;
  *
  * @author charles
  */
+@RequiredArgsConstructor(onConstructor_ = @Autowired)
 @Service
 public class SysNoticeServiceImpl implements ISysNoticeService {
-    @Autowired
-    private SysNoticeMapper noticeMapper;
+    private final SysNoticeMapper noticeMapper;
 
     /**
      * 查询公告信息

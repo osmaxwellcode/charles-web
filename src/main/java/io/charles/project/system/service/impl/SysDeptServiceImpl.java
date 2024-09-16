@@ -13,6 +13,7 @@ import io.charles.project.system.domain.SysUser;
 import io.charles.project.system.mapper.SysDeptMapper;
 import io.charles.project.system.mapper.SysRoleMapper;
 import io.charles.project.system.service.ISysDeptService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.aop.framework.AopContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,13 +28,11 @@ import java.util.stream.Collectors;
  *
  * @author charles
  */
+@RequiredArgsConstructor(onConstructor_ = @Autowired)
 @Service
 public class SysDeptServiceImpl implements ISysDeptService {
-    @Autowired
-    private SysDeptMapper deptMapper;
-
-    @Autowired
-    private SysRoleMapper roleMapper;
+    private final SysDeptMapper deptMapper;
+    private final SysRoleMapper roleMapper;
 
     /**
      * 查询部门管理数据

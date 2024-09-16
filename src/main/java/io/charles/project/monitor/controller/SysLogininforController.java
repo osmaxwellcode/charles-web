@@ -8,6 +8,7 @@ import io.charles.framework.web.domain.AjaxResult;
 import io.charles.framework.web.page.TableDataInfo;
 import io.charles.project.monitor.domain.SysLogininfor;
 import io.charles.project.monitor.service.ISysLogininforService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -21,11 +22,11 @@ import java.util.List;
  *
  * @author charles
  */
+@RequiredArgsConstructor(onConstructor_ = @Autowired)
 @RestController
 @RequestMapping("/monitor/logininfor")
 public class SysLogininforController extends BaseController {
-    @Autowired
-    private ISysLogininforService logininforService;
+    private final ISysLogininforService logininforService;
 
     @PreAuthorize("@ss.hasPermi('monitor:logininfor:list')")
     @GetMapping("/list")
@@ -35,7 +36,7 @@ public class SysLogininforController extends BaseController {
         return getDataTable(list);
     }
 
-    @Log(title = "登录日志" , businessType = BusinessType.EXPORT)
+    @Log(title = "登录日志", businessType = BusinessType.EXPORT)
     @PreAuthorize("@ss.hasPermi('monitor:logininfor:export')")
     @PostMapping("/export")
     public void export(SysLogininfor logininfor, HttpServletResponse response) throws IOException {
@@ -45,14 +46,14 @@ public class SysLogininforController extends BaseController {
     }
 
     @PreAuthorize("@ss.hasPermi('monitor:logininfor:remove')")
-    @Log(title = "登录日志" , businessType = BusinessType.DELETE)
+    @Log(title = "登录日志", businessType = BusinessType.DELETE)
     @DeleteMapping("/{infoIds}")
     public AjaxResult remove(@PathVariable Long[] infoIds) {
         return toAjax(logininforService.deleteLogininforByIds(infoIds));
     }
 
     @PreAuthorize("@ss.hasPermi('monitor:logininfor:remove')")
-    @Log(title = "登录日志" , businessType = BusinessType.CLEAN)
+    @Log(title = "登录日志", businessType = BusinessType.CLEAN)
     @DeleteMapping("/clean")
     public AjaxResult clean() {
         logininforService.cleanLogininfor();

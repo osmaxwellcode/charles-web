@@ -11,6 +11,7 @@ import io.charles.project.system.mapper.SysRoleMapper;
 import io.charles.project.system.mapper.SysRoleMenuMapper;
 import io.charles.project.system.mapper.SysUserRoleMapper;
 import io.charles.project.system.service.ISysRoleService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.aop.framework.AopContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,19 +24,13 @@ import java.util.*;
  *
  * @author charles
  */
+@RequiredArgsConstructor(onConstructor_ = @Autowired)
 @Service
 public class SysRoleServiceImpl implements ISysRoleService {
-    @Autowired
-    private SysRoleMapper roleMapper;
-
-    @Autowired
-    private SysRoleMenuMapper roleMenuMapper;
-
-    @Autowired
-    private SysUserRoleMapper userRoleMapper;
-
-    @Autowired
-    private SysRoleDeptMapper roleDeptMapper;
+    private final SysRoleMapper roleMapper;
+    private final SysRoleMenuMapper roleMenuMapper;
+    private final SysUserRoleMapper userRoleMapper;
+    private final SysRoleDeptMapper roleDeptMapper;
 
     /**
      * 根据条件分页查询角色数据

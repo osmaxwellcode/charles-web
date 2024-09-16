@@ -11,6 +11,7 @@ import io.charles.framework.web.domain.AjaxResult;
 import io.charles.framework.web.page.TableDataInfo;
 import io.charles.project.monitor.domain.SysUserOnline;
 import io.charles.project.system.service.ISysUserOnlineService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -25,14 +26,12 @@ import java.util.List;
  *
  * @author charles
  */
+@RequiredArgsConstructor(onConstructor_ = @Autowired)
 @RestController
 @RequestMapping("/monitor/online")
 public class SysUserOnlineController extends BaseController {
-    @Autowired
-    private ISysUserOnlineService userOnlineService;
-
-    @Autowired
-    private EhcacheCache ehcacheCache;
+    private final ISysUserOnlineService userOnlineService;
+    private final EhcacheCache ehcacheCache;
 
     @PreAuthorize("@ss.hasPermi('monitor:online:list')")
     @GetMapping("/list")
@@ -66,7 +65,7 @@ public class SysUserOnlineController extends BaseController {
      * 强退用户
      */
     @PreAuthorize("@ss.hasPermi('monitor:online:forceLogout')")
-    @Log(title = "在线用户" , businessType = BusinessType.FORCE)
+    @Log(title = "在线用户", businessType = BusinessType.FORCE)
     @DeleteMapping("/{tokenId}")
     public AjaxResult forceLogout(@PathVariable String tokenId) {
         ehcacheCache.deleteObject(Constants.LOGIN_TOKEN_KEY + tokenId);

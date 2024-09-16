@@ -13,6 +13,7 @@ import io.charles.framework.web.controller.BaseController;
 import io.charles.framework.web.domain.AjaxResult;
 import io.charles.project.system.domain.SysUser;
 import io.charles.project.system.service.ISysUserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -24,14 +25,12 @@ import java.io.IOException;
  *
  * @author charles
  */
+@RequiredArgsConstructor(onConstructor_ = @Autowired)
 @RestController
 @RequestMapping("/system/user/profile")
 public class SysProfileController extends BaseController {
-    @Autowired
-    private ISysUserService userService;
-
-    @Autowired
-    private TokenService tokenService;
+    private final ISysUserService userService;
+    private final TokenService tokenService;
 
     /**
      * 个人信息
@@ -41,15 +40,15 @@ public class SysProfileController extends BaseController {
         LoginUser loginUser = getLoginUser();
         SysUser user = loginUser.getUser();
         AjaxResult ajax = AjaxResult.success(user);
-        ajax.put("roleGroup" , userService.selectUserRoleGroup(loginUser.getUsername()));
-        ajax.put("postGroup" , userService.selectUserPostGroup(loginUser.getUsername()));
+        ajax.put("roleGroup", userService.selectUserRoleGroup(loginUser.getUsername()));
+        ajax.put("postGroup", userService.selectUserPostGroup(loginUser.getUsername()));
         return ajax;
     }
 
     /**
      * 修改用户
      */
-    @Log(title = "个人信息" , businessType = BusinessType.UPDATE)
+    @Log(title = "个人信息", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult updateProfile(@RequestBody SysUser user) {
         if (StringUtils.isNotEmpty(user.getPhonenumber())
@@ -78,7 +77,7 @@ public class SysProfileController extends BaseController {
     /**
      * 重置密码
      */
-    @Log(title = "个人信息" , businessType = BusinessType.UPDATE)
+    @Log(title = "个人信息", businessType = BusinessType.UPDATE)
     @PutMapping("/updatePwd")
     public AjaxResult updatePwd(String oldPassword, String newPassword) {
         LoginUser loginUser = getLoginUser();
@@ -102,7 +101,7 @@ public class SysProfileController extends BaseController {
     /**
      * 头像上传
      */
-    @Log(title = "用户头像" , businessType = BusinessType.UPDATE)
+    @Log(title = "用户头像", businessType = BusinessType.UPDATE)
     @PostMapping("/avatar")
     public AjaxResult avatar(@RequestParam("avatarfile") MultipartFile file) throws IOException {
         if (!file.isEmpty()) {
@@ -110,7 +109,7 @@ public class SysProfileController extends BaseController {
             String avatar = FileUploadUtils.upload(AppProperties.getAvatarPath(), file);
             if (userService.updateUserAvatar(loginUser.getUsername(), avatar)) {
                 AjaxResult ajax = AjaxResult.success();
-                ajax.put("imgUrl" , avatar);
+                ajax.put("imgUrl", avatar);
                 // 更新缓存用户头像
                 loginUser.getUser().setAvatar(avatar);
                 tokenService.setLoginUser(loginUser);

@@ -8,6 +8,7 @@ import io.charles.framework.web.domain.AjaxResult;
 import io.charles.framework.web.page.TableDataInfo;
 import io.charles.project.monitor.domain.SysOperLog;
 import io.charles.project.monitor.service.ISysOperLogService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -19,11 +20,11 @@ import java.util.List;
  *
  * @author charles
  */
+@RequiredArgsConstructor(onConstructor_ = @Autowired)
 @RestController
 @RequestMapping("/monitor/operlog")
 public class SysOperlogController extends BaseController {
-    @Autowired
-    private ISysOperLogService operLogService;
+    private final ISysOperLogService operLogService;
 
     @PreAuthorize("@ss.hasPermi('monitor:operlog:list')")
     @GetMapping("/list")
@@ -33,7 +34,7 @@ public class SysOperlogController extends BaseController {
         return getDataTable(list);
     }
 
-    @Log(title = "操作日志" , businessType = BusinessType.EXPORT)
+    @Log(title = "操作日志", businessType = BusinessType.EXPORT)
     @PreAuthorize("@ss.hasPermi('monitor:operlog:export')")
     @GetMapping("/export")
     public AjaxResult export(SysOperLog operLog) {
@@ -42,14 +43,14 @@ public class SysOperlogController extends BaseController {
         return util.exportExcel(list, "操作日志");
     }
 
-    @Log(title = "操作日志" , businessType = BusinessType.DELETE)
+    @Log(title = "操作日志", businessType = BusinessType.DELETE)
     @PreAuthorize("@ss.hasPermi('monitor:operlog:remove')")
     @DeleteMapping("/{operIds}")
     public AjaxResult remove(@PathVariable Long[] operIds) {
         return toAjax(operLogService.deleteOperLogByIds(operIds));
     }
 
-    @Log(title = "操作日志" , businessType = BusinessType.CLEAN)
+    @Log(title = "操作日志", businessType = BusinessType.CLEAN)
     @PreAuthorize("@ss.hasPermi('monitor:operlog:remove')")
     @DeleteMapping("/clean")
     public AjaxResult clean() {

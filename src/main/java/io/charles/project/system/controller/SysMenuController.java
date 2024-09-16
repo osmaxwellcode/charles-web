@@ -8,6 +8,7 @@ import io.charles.framework.web.controller.BaseController;
 import io.charles.framework.web.domain.AjaxResult;
 import io.charles.project.system.domain.SysMenu;
 import io.charles.project.system.service.ISysMenuService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
@@ -20,11 +21,11 @@ import java.util.List;
  *
  * @author charles
  */
+@RequiredArgsConstructor(onConstructor_ = @Autowired)
 @RestController
 @RequestMapping("/system/menu")
 public class SysMenuController extends BaseController {
-    @Autowired
-    private ISysMenuService menuService;
+    private final ISysMenuService menuService;
 
     /**
      * 获取菜单列表

@@ -8,6 +8,7 @@ import io.charles.framework.web.controller.BaseController;
 import io.charles.framework.web.domain.AjaxResult;
 import io.charles.project.system.domain.SysDept;
 import io.charles.project.system.service.ISysDeptService;
+import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -22,11 +23,11 @@ import java.util.List;
  *
  * @author charles
  */
+@RequiredArgsConstructor(onConstructor_ = @Autowired)
 @RestController
 @RequestMapping("/system/dept")
 public class SysDeptController extends BaseController {
-    @Autowired
-    private ISysDeptService deptService;
+    private final ISysDeptService deptService;
 
     /**
      * 获取部门列表
@@ -43,7 +44,7 @@ public class SysDeptController extends BaseController {
      */
     @PreAuthorize("@ss.hasPermi('system:dept:list')")
     @GetMapping("/list/exclude/{deptId}")
-    public AjaxResult excludeChild(@PathVariable(value = "deptId" , required = false) Long deptId) {
+    public AjaxResult excludeChild(@PathVariable(value = "deptId", required = false) Long deptId) {
         List<SysDept> depts = deptService.selectDeptList(new SysDept());
         Iterator<SysDept> it = depts.iterator();
         while (it.hasNext()) {
@@ -82,8 +83,8 @@ public class SysDeptController extends BaseController {
     public AjaxResult roleDeptTreeselect(@PathVariable("roleId") Long roleId) {
         List<SysDept> depts = deptService.selectDeptList(new SysDept());
         AjaxResult ajax = AjaxResult.success();
-        ajax.put("checkedKeys" , deptService.selectDeptListByRoleId(roleId));
-        ajax.put("depts" , deptService.buildDeptTreeSelect(depts));
+        ajax.put("checkedKeys", deptService.selectDeptListByRoleId(roleId));
+        ajax.put("depts", deptService.buildDeptTreeSelect(depts));
         return ajax;
     }
 
@@ -91,7 +92,7 @@ public class SysDeptController extends BaseController {
      * 新增部门
      */
     @PreAuthorize("@ss.hasPermi('system:dept:add')")
-    @Log(title = "部门管理" , businessType = BusinessType.INSERT)
+    @Log(title = "部门管理", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@Validated @RequestBody SysDept dept) {
         if (UserConstants.NOT_UNIQUE.equals(deptService.checkDeptNameUnique(dept))) {
@@ -105,7 +106,7 @@ public class SysDeptController extends BaseController {
      * 修改部门
      */
     @PreAuthorize("@ss.hasPermi('system:dept:edit')")
-    @Log(title = "部门管理" , businessType = BusinessType.UPDATE)
+    @Log(title = "部门管理", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@Validated @RequestBody SysDept dept) {
         if (UserConstants.NOT_UNIQUE.equals(deptService.checkDeptNameUnique(dept))) {
@@ -124,7 +125,7 @@ public class SysDeptController extends BaseController {
      * 删除部门
      */
     @PreAuthorize("@ss.hasPermi('system:dept:remove')")
-    @Log(title = "部门管理" , businessType = BusinessType.DELETE)
+    @Log(title = "部门管理", businessType = BusinessType.DELETE)
     @DeleteMapping("/{deptId}")
     public AjaxResult remove(@PathVariable Long deptId) {
         if (deptService.hasChildByDeptId(deptId)) {

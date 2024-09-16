@@ -5,6 +5,7 @@ import io.charles.framework.security.service.SysRegisterService;
 import io.charles.framework.web.controller.BaseController;
 import io.charles.framework.web.domain.AjaxResult;
 import io.charles.project.system.service.ISysConfigService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,13 +17,11 @@ import org.springframework.web.bind.annotation.RestController;
  *
  * @author charles
  */
+@RequiredArgsConstructor(onConstructor_ = @Autowired)
 @RestController
 public class SysRegisterController extends BaseController {
-    @Autowired
-    private SysRegisterService registerService;
-
-    @Autowired
-    private ISysConfigService configService;
+    private final SysRegisterService registerService;
+    private final ISysConfigService configService;
 
     @PostMapping("/register")
     public AjaxResult register(@RequestBody RegisterBody user) {

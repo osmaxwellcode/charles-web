@@ -9,6 +9,7 @@ import io.charles.project.system.domain.SysDictType;
 import io.charles.project.system.mapper.SysDictDataMapper;
 import io.charles.project.system.mapper.SysDictTypeMapper;
 import io.charles.project.system.service.ISysDictTypeService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,13 +22,11 @@ import java.util.List;
  *
  * @author charles
  */
+@RequiredArgsConstructor(onConstructor_ = @Autowired)
 @Service
 public class SysDictTypeServiceImpl implements ISysDictTypeService {
-    @Autowired
-    private SysDictTypeMapper dictTypeMapper;
-
-    @Autowired
-    private SysDictDataMapper dictDataMapper;
+    private final SysDictTypeMapper dictTypeMapper;
+    private final SysDictDataMapper dictDataMapper;
 
     /**
      * 项目启动时，初始化字典到缓存
@@ -111,7 +110,7 @@ public class SysDictTypeServiceImpl implements ISysDictTypeService {
         for (Long dictId : dictIds) {
             SysDictType dictType = selectDictTypeById(dictId);
             if (dictDataMapper.countDictDataByType(dictType.getDictType()) > 0) {
-                throw new ServiceException(String.format("%1$s已分配,不能删除" , dictType.getDictName()));
+                throw new ServiceException(String.format("%1$s已分配,不能删除", dictType.getDictName()));
             }
             dictTypeMapper.deleteDictTypeById(dictId);
             DictUtils.removeDictCache(dictType.getDictType());
