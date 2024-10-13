@@ -1,5 +1,7 @@
 package io.charles.project.monitor.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import io.charles.project.monitor.domain.SysLogininfor;
 import io.charles.project.monitor.domain.SysOperLog;
 
 import java.util.List;
@@ -9,7 +11,7 @@ import java.util.List;
  *
  * @author charles
  */
-public interface SysOperLogMapper {
+public interface SysOperLogMapper extends BaseMapper<SysLogininfor> {
     /**
      * 新增操作日志
      *
