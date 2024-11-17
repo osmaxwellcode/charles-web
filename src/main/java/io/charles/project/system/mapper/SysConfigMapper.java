@@ -1,5 +1,7 @@
 package io.charles.project.system.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import io.charles.project.monitor.domain.SysLogininfor;
 import io.charles.project.system.domain.SysConfig;
 
 import java.util.List;
@@ -9,7 +11,7 @@ import java.util.List;
  *
  * @author charles
  */
-public interface SysConfigMapper {
+public interface SysConfigMapper extends BaseMapper<SysConfig> {
     /**
      * 查询参数配置信息
      *

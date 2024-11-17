@@ -1,5 +1,6 @@
 package io.charles.project.tool.gen.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import io.charles.project.tool.gen.domain.GenTable;
 
 import java.util.List;
@@ -9,7 +10,7 @@ import java.util.List;
  *
  * @author charles
  */
-public interface GenTableMapper {
+public interface GenTableMapper extends BaseMapper<GenTable> {
     /**
      * 查询业务列表
      *

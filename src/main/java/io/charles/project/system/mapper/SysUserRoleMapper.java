@@ -1,5 +1,7 @@
 package io.charles.project.system.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import io.charles.project.system.domain.SysUserPost;
 import io.charles.project.system.domain.SysUserRole;
 import org.apache.ibatis.annotations.Param;
 
@@ -10,7 +12,7 @@ import java.util.List;
  *
  * @author charles
  */
-public interface SysUserRoleMapper {
+public interface SysUserRoleMapper extends BaseMapper<SysUserRole> {
     /**
      * 通过用户ID删除用户和角色关联
      *

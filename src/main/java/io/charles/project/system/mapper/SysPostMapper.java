@@ -1,5 +1,6 @@
 package io.charles.project.system.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import io.charles.project.system.domain.SysPost;
 
 import java.util.List;
@@ -9,7 +10,7 @@ import java.util.List;
  *
  * @author charles
  */
-public interface SysPostMapper {
+public interface SysPostMapper extends BaseMapper<SysPost> {
     /**
      * 查询岗位数据集合
      *

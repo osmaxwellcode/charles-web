@@ -1,5 +1,7 @@
 package io.charles.project.system.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import io.charles.project.system.domain.SysDept;
 import io.charles.project.system.domain.SysDictData;
 import org.apache.ibatis.annotations.Param;
 
@@ -10,7 +12,7 @@ import java.util.List;
  *
  * @author charles
  */
-public interface SysDictDataMapper {
+public interface SysDictDataMapper extends BaseMapper<SysDictData> {
     /**
      * 根据条件分页查询字典数据
      *

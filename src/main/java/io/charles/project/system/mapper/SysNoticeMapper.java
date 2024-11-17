@@ -1,5 +1,6 @@
 package io.charles.project.system.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import io.charles.project.system.domain.SysNotice;
 
 import java.util.List;
@@ -9,7 +10,7 @@ import java.util.List;
  *
  * @author charles
  */
-public interface SysNoticeMapper {
+public interface SysNoticeMapper extends BaseMapper<SysNotice> {
     /**
      * 查询公告信息
      *

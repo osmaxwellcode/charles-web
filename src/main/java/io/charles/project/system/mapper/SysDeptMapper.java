@@ -1,5 +1,6 @@
 package io.charles.project.system.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import io.charles.project.system.domain.SysDept;
 import org.apache.ibatis.annotations.Param;
 
@@ -10,7 +11,7 @@ import java.util.List;
  *
  * @author charles
  */
-public interface SysDeptMapper {
+public interface SysDeptMapper extends BaseMapper<SysDept> {
     /**
      * 查询部门管理数据
      *

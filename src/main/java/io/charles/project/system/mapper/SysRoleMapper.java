@@ -1,6 +1,8 @@
 package io.charles.project.system.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import io.charles.project.system.domain.SysRole;
+import io.charles.project.system.domain.SysRoleDept;
 
 import java.util.List;
 
@@ -9,7 +11,7 @@ import java.util.List;
  *
  * @author charles
  */
-public interface SysRoleMapper {
+public interface SysRoleMapper extends BaseMapper<SysRole> {
     /**
      * 根据条件分页查询角色数据
      *

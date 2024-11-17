@@ -1,5 +1,7 @@
 package io.charles.project.system.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import io.charles.project.system.domain.SysPost;
 import io.charles.project.system.domain.SysRoleDept;
 
 import java.util.List;
@@ -9,7 +11,7 @@ import java.util.List;
  *
  * @author charles
  */
-public interface SysRoleDeptMapper {
+public interface SysRoleDeptMapper extends BaseMapper<SysRoleDept> {
     /**
      * 通过角色ID删除角色和部门关联
      *

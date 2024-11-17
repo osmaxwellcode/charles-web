@@ -1,5 +1,7 @@
 package io.charles.project.system.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import io.charles.project.system.domain.SysRole;
 import io.charles.project.system.domain.SysRoleMenu;
 
 import java.util.List;
@@ -9,7 +11,7 @@ import java.util.List;
  *
  * @author charles
  */
-public interface SysRoleMenuMapper {
+public interface SysRoleMenuMapper extends BaseMapper<SysRoleMenu> {
     /**
      * 查询菜单使用数量
      *

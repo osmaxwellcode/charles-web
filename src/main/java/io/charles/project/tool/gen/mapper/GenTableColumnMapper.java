@@ -1,5 +1,7 @@
 package io.charles.project.tool.gen.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import io.charles.project.system.domain.SysUserRole;
 import io.charles.project.tool.gen.domain.GenTableColumn;
 
 import java.util.List;
@@ -9,7 +11,7 @@ import java.util.List;
  *
  * @author charles
  */
-public interface GenTableColumnMapper {
+public interface GenTableColumnMapper extends BaseMapper<GenTableColumn> {
     /**
      * 根据表名称查询列信息
      *
