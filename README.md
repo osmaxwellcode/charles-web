@@ -6,9 +6,9 @@
 本项目基于RuoYi-Vue改造而来，提供了更轻量化的管理系统解决方案，仅单个Java程序，不依赖任何三方程序(RuoYi需安装MySQL，Redis)，适合中小型项目使用。
 
 主要技术选型
-- JDK 11。
+- JDK 17。
 - 前端采用Vue、Ant Design Vue。
-- 后端采用Spring Boot、Spring Security、EhCache & Jwt。
+- 后端采用Spring Boot3、Spring Security、EhCache & Jwt。
 - 权限认证使用Jwt，支持多终端认证系统。
 - 支持加载动态权限菜单，多方式轻松权限控制。
 - 高效率开发，使用代码生成器可以一键生成前后端代码。
