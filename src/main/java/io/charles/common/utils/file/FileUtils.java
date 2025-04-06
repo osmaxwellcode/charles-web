@@ -4,11 +4,11 @@ import cn.hutool.core.util.IdUtil;
 import io.charles.common.utils.DateUtils;
 import io.charles.common.utils.StringUtils;
 import io.charles.framework.config.AppProperties;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.ArrayUtils;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
@@ -144,7 +144,7 @@ public class FileUtils {
         if (agent.contains("MSIE")) {
             // IE浏览器
             filename = URLEncoder.encode(filename, "utf-8");
-            filename = filename.replace("+" , " ");
+            filename = filename.replace("+", " ");
         } else if (agent.contains("Firefox")) {
             // 火狐浏览器
             filename = new String(fileName.getBytes(), "ISO8859-1");
@@ -176,7 +176,7 @@ public class FileUtils {
                 .append("utf-8''")
                 .append(percentEncodedFileName);
 
-        response.setHeader("Content-disposition" , contentDispositionValue.toString());
+        response.setHeader("Content-disposition", contentDispositionValue.toString());
     }
 
     /**
@@ -187,7 +187,7 @@ public class FileUtils {
      */
     public static String percentEncode(String s) throws UnsupportedEncodingException {
         String encode = URLEncoder.encode(s, StandardCharsets.UTF_8.toString());
-        return encode.replaceAll("\\+" , "%20");
+        return encode.replaceAll("\\+", "%20");
     }
 
     /**

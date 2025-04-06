@@ -4,19 +4,18 @@ import cn.hutool.core.util.IdUtil;
 import com.google.code.kaptcha.Producer;
 import io.charles.common.constant.Constants;
 import io.charles.common.utils.sign.Base64;
+import io.charles.framework.cache.ICacheService;
 import io.charles.framework.config.AppProperties;
-import io.charles.framework.ehcache.EhcacheCache;
 import io.charles.framework.web.domain.AjaxResult;
 import io.charles.project.system.service.ISysConfigService;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.FastByteArrayOutputStream;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.annotation.Resource;
 import javax.imageio.ImageIO;
-import javax.servlet.http.HttpServletResponse;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
@@ -31,7 +30,7 @@ import java.util.concurrent.TimeUnit;
 public class CaptchaController {
     private final Producer captchaProducer;
     private final Producer captchaProducerMath;
-    private final EhcacheCache ehcacheCache;
+    private final ICacheService cacheCache;
     private final AppProperties appProperties;
     private final ISysConfigService configService;
 
@@ -66,7 +65,7 @@ public class CaptchaController {
             image = captchaProducer.createImage(capStr);
         }
 
-        ehcacheCache.setCacheObject(verifyKey, code, Constants.CAPTCHA_EXPIRATION, TimeUnit.MINUTES);
+        cacheCache.setCacheObject(verifyKey, code, Constants.CAPTCHA_EXPIRATION.longValue(), TimeUnit.MINUTES);
         // 转换流信息写出
         FastByteArrayOutputStream os = new FastByteArrayOutputStream();
         try {

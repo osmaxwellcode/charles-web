@@ -6,7 +6,7 @@ import io.charles.common.exception.user.CaptchaException;
 import io.charles.common.exception.user.CaptchaExpireException;
 import io.charles.common.utils.MessageUtils;
 import io.charles.common.utils.SecurityUtils;
-import io.charles.framework.ehcache.EhcacheCache;
+import io.charles.framework.cache.ICacheService;
 import io.charles.framework.manager.AsyncManager;
 import io.charles.framework.manager.factory.AsyncFactory;
 import io.charles.framework.security.RegisterBody;
@@ -31,13 +31,13 @@ public class SysRegisterService {
     private ISysConfigService configService;
 
     @Autowired
-    private EhcacheCache ehcacheCache;
+    private ICacheService cacheService;
 
     /**
      * 注册
      */
     public String register(RegisterBody registerBody) {
-        String msg = "" , username = registerBody.getUsername(), password = registerBody.getPassword();
+        String msg = "", username = registerBody.getUsername(), password = registerBody.getPassword();
 
         boolean captchaOnOff = configService.selectCaptchaOnOff();
         // 验证码开关
@@ -83,8 +83,8 @@ public class SysRegisterService {
      */
     public void validateCaptcha(String username, String code, String uuid) {
         String verifyKey = Constants.CAPTCHA_CODE_KEY + uuid;
-        String captcha = ehcacheCache.getCacheObject(verifyKey);
-        ehcacheCache.deleteObject(verifyKey);
+        String captcha = cacheService.getCacheObject(verifyKey);
+        cacheService.deleteObject(verifyKey);
         if (captcha == null) {
             throw new CaptchaExpireException();
         }

@@ -11,7 +11,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.7.18</version>
+        <version>3.3.5</version>
     </parent>
 
     <properties>
@@ -19,19 +19,19 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>17</java.version>
         <pagehelper.spring.boot.starter.version>2.1.0</pagehelper.spring.boot.starter.version>
-        <fastjson.version>1.2.76</fastjson.version>
-        <druid.version>1.2.11</druid.version>
+        <fastjson.version>1.2.83</fastjson.version>
+        <druid.version>1.2.23</druid.version>
         <commons.io.version>2.11.0</commons.io.version>
         <commons.collections.version>3.2.2</commons.collections.version>
         <bitwalker.version>1.21</bitwalker.version>
-        <jwt.version>0.9.1</jwt.version>
+        <jwt.version>0.12.6</jwt.version>
         <kaptcha.version>2.3.2</kaptcha.version>
         <swagger.version>3.0.0</swagger.version>
-        <poi.version>5.2.2</poi.version>
+        <poi.version>5.3.0</poi.version>
         <oshi.version>6.2.2</oshi.version>
         <jna.version>5.8.0</jna.version>
         <velocity.version>1.7</velocity.version>
-        <spring-boot.version>2.7.18</spring-boot.version>
+        <spring-boot.version>3.3.5</spring-boot.version>
     </properties>
 
     <dependencies>
@@ -92,12 +92,17 @@
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-boot-starter</artifactId>
-            <version>3.5.7</version>
+            <version>3.5.9</version>
+        </dependency>
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-jsqlparser</artifactId>
+            <version>3.5.9</version>
         </dependency>
         <dependency>
             <groupId>org.mybatis</groupId>
             <artifactId>mybatis-spring</artifactId>
-            <version>2.1.2</version>
+            <version>3.0.4</version>
         </dependency>
         <dependency>
             <groupId>org.mybatis</groupId>
@@ -113,7 +118,7 @@
         <!-- 阿里数据库连接池 -->
         <dependency>
             <groupId>com.alibaba</groupId>
-            <artifactId>druid-spring-boot-starter</artifactId>
+            <artifactId>druid-spring-boot-3-starter</artifactId>
             <version>${druid.version}</version>
         </dependency>
 
@@ -212,8 +217,8 @@
 
         <!-- https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient -->
         <dependency>
-            <groupId>org.apache.httpcomponents</groupId>
-            <artifactId>httpclient</artifactId>
+            <groupId>org.apache.httpcomponents.client5</groupId>
+            <artifactId>httpclient5</artifactId>
         </dependency>
         <!-- jsoup HTML parser library @ https://jsoup.org/ -->
         <dependency>
@@ -222,13 +227,18 @@
             <version>1.18.1</version>
         </dependency>
         <!-- caching -->
+        <!--        <dependency>-->
+        <!--            <groupId>org.springframework.boot</groupId>-->
+        <!--            <artifactId>spring-boot-starter-cache</artifactId>-->
+        <!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>net.sf.ehcache</groupId>-->
+        <!--            <artifactId>ehcache</artifactId>-->
+        <!--        </dependency>-->
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-cache</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>net.sf.ehcache</groupId>
-            <artifactId>ehcache</artifactId>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>33.3.1-jre</version>
         </dependency>
         <!-- 需要javax.xml.bind.DatatypeConverter -->
         <dependency>
@@ -291,7 +301,6 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <fork>false</fork> <!-- 如果没有该配置，devtools不会生效 -->
                     <layout>ZIP</layout>
                     <includes>
                         <include>

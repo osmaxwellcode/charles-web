@@ -9,12 +9,12 @@ import io.charles.project.system.domain.SysDictType;
 import io.charles.project.system.mapper.SysDictDataMapper;
 import io.charles.project.system.mapper.SysDictTypeMapper;
 import io.charles.project.system.service.ISysDictTypeService;
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.PostConstruct;
 import java.util.List;
 
 /**

@@ -5,13 +5,14 @@ import io.charles.common.filter.RepeatedlyRequestWrapper;
 import io.charles.common.utils.JsonUtil;
 import io.charles.common.utils.StringUtils;
 import io.charles.common.utils.http.HttpHelper;
-import io.charles.framework.ehcache.EhcacheCache;
+import io.charles.framework.cache.ICacheService;
 import io.charles.framework.interceptor.RepeatSubmitInterceptor;
+import io.charles.framework.interceptor.annotation.RepeatSubmit;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -33,14 +34,14 @@ public class SameUrlDataInterceptor extends RepeatSubmitInterceptor {
     private String header;
 
     @Autowired
-    private EhcacheCache ehcacheCache;
+    private ICacheService cacheService;
 
     /**
      * 间隔时间，单位:秒 默认10秒
      * <p>
      * 两次相同参数的请求，如果间隔时间大于该参数，系统不会认定为重复提交的数据
      */
-    private int intervalTime = 10;
+    private long intervalTime = 10;
 
     public void setIntervalTime(int intervalTime) {
         this.intervalTime = intervalTime;
@@ -48,7 +49,7 @@ public class SameUrlDataInterceptor extends RepeatSubmitInterceptor {
 
     @SuppressWarnings("unchecked")
     @Override
-    public boolean isRepeatSubmit(HttpServletRequest request) {
+    public boolean isRepeatSubmit(HttpServletRequest request, RepeatSubmit annotation) {
         String nowParams = "";
         if (request instanceof RepeatedlyRequestWrapper) {
             RepeatedlyRequestWrapper repeatedlyRequest = (RepeatedlyRequestWrapper) request;
@@ -75,7 +76,7 @@ public class SameUrlDataInterceptor extends RepeatSubmitInterceptor {
         // 唯一标识（指定key + 消息头）
         String cacheRepeatKey = Constants.REPEAT_SUBMIT_KEY + submitKey;
 
-        Object sessionObj = ehcacheCache.getCacheObject(cacheRepeatKey);
+        Object sessionObj = cacheService.getCacheObject(cacheRepeatKey);
         if (sessionObj != null) {
             Map<String, Object> sessionMap = (Map<String, Object>) sessionObj;
             if (sessionMap.containsKey(url)) {
@@ -87,7 +88,7 @@ public class SameUrlDataInterceptor extends RepeatSubmitInterceptor {
         }
         Map<String, Object> cacheMap = new HashMap<String, Object>();
         cacheMap.put(url, nowDataMap);
-        ehcacheCache.setCacheObject(cacheRepeatKey, cacheMap, intervalTime, TimeUnit.SECONDS);
+        cacheService.setCacheObject(cacheRepeatKey, cacheMap, intervalTime, TimeUnit.SECONDS);
         return false;
     }
 

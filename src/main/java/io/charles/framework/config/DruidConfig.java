@@ -1,29 +1,17 @@
 package io.charles.framework.config;
 
 import cn.hutool.extra.spring.SpringUtil;
-import com.alibaba.druid.pool.DruidDataSource;
-import com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceBuilder;
-import com.alibaba.druid.spring.boot.autoconfigure.properties.DruidStatProperties;
+import com.alibaba.druid.spring.boot3.autoconfigure.properties.DruidStatProperties;
 import com.alibaba.druid.util.Utils;
-import io.charles.framework.aspectj.lang.enums.DataSourceType;
-import io.charles.framework.config.properties.DruidProperties;
-import io.charles.framework.datasource.DynamicDataSource;
+import jakarta.servlet.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
-import org.sqlite.SQLiteConfig;
 
-import javax.servlet.*;
 import javax.sql.DataSource;
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -34,45 +22,45 @@ import java.util.Map;
 @Slf4j
 @Configuration
 public class DruidConfig {
-    @Bean
-    @ConfigurationProperties("spring.datasource.druid.master")
-    public DataSource masterDataSource(DruidProperties druidProperties) {
-        Path dbPath = Paths.get("data", "app.db").toAbsolutePath();
-        File dir = dbPath.toFile().getParentFile();
-        if (!dir.exists() && !dir.mkdirs()) {
-            log.error("生成data目录失败，无法创建数据库");
-        }
-
-        SQLiteConfig config = new SQLiteConfig();
-        config.setJournalMode(SQLiteConfig.JournalMode.WAL);
-        config.setSynchronous(SQLiteConfig.SynchronousMode.FULL);
-        config.setBusyTimeout(60000);
-        config.enforceForeignKeys(true);
-
-        DruidDataSource dataSource = DruidDataSourceBuilder.create().build();
-        dataSource.setUrl("jdbc:sqlite:" + dbPath);
-        dataSource.setDriverClassName("org.sqlite.JDBC");
-        dataSource.setConnectProperties(config.toProperties());
-
-        return druidProperties.dataSource(dataSource);
-    }
-
-    @Bean
-    @ConfigurationProperties("spring.datasource.druid.slave")
-    @ConditionalOnProperty(prefix = "spring.datasource.druid.slave", name = "enabled", havingValue = "true")
-    public DataSource slaveDataSource(DruidProperties druidProperties) {
-        DruidDataSource dataSource = DruidDataSourceBuilder.create().build();
-        return druidProperties.dataSource(dataSource);
-    }
-
-    @Bean(name = "dynamicDataSource")
-    @Primary
-    public DynamicDataSource dataSource(DataSource masterDataSource) {
-        Map<Object, Object> targetDataSources = new HashMap<>();
-        targetDataSources.put(DataSourceType.MASTER.name(), masterDataSource);
-        setDataSource(targetDataSources, DataSourceType.SLAVE.name(), "slaveDataSource");
-        return new DynamicDataSource(masterDataSource, targetDataSources);
-    }
+//    @Bean
+//    @ConfigurationProperties("spring.datasource.druid.master")
+//    public DataSource masterDataSource(DruidProperties druidProperties) {
+//        Path dbPath = Paths.get("data", "app.db").toAbsolutePath();
+//        File dir = dbPath.toFile().getParentFile();
+//        if (!dir.exists() && !dir.mkdirs()) {
+//            log.error("生成data目录失败，无法创建数据库");
+//        }
+//
+//        SQLiteConfig config = new SQLiteConfig();
+//        config.setJournalMode(SQLiteConfig.JournalMode.WAL);
+//        config.setSynchronous(SQLiteConfig.SynchronousMode.FULL);
+//        config.setBusyTimeout(60000);
+//        config.enforceForeignKeys(true);
+//
+//        DruidDataSource dataSource = DruidDataSourceBuilder.create().build();
+//        dataSource.setUrl("jdbc:sqlite:" + dbPath);
+//        dataSource.setDriverClassName("org.sqlite.JDBC");
+//        dataSource.setConnectProperties(config.toProperties());
+//
+//        return druidProperties.dataSource(dataSource);
+//    }
+//
+//    @Bean
+//    @ConfigurationProperties("spring.datasource.druid.slave")
+//    @ConditionalOnProperty(prefix = "spring.datasource.druid.slave", name = "enabled", havingValue = "true")
+//    public DataSource slaveDataSource(DruidProperties druidProperties) {
+//        DruidDataSource dataSource = DruidDataSourceBuilder.create().build();
+//        return druidProperties.dataSource(dataSource);
+//    }
+//
+//    @Bean(name = "dynamicDataSource")
+//    @Primary
+//    public DynamicDataSource dataSource(DataSource masterDataSource) {
+//        Map<Object, Object> targetDataSources = new HashMap<>();
+//        targetDataSources.put(DataSourceType.MASTER.name(), masterDataSource);
+//        setDataSource(targetDataSources, DataSourceType.SLAVE.name(), "slaveDataSource");
+//        return new DynamicDataSource(masterDataSource, targetDataSources);
+//    }
 
     /**
      * 设置数据源
@@ -104,8 +92,7 @@ public class DruidConfig {
         final String filePath = "support/http/resources/js/common.js";
         // 创建filter进行过滤
         Filter filter = new Filter() {
-            @Override
-            public void init(javax.servlet.FilterConfig filterConfig) throws ServletException {
+            public void init(FilterConfig filterConfig) throws ServletException {
             }
 
             @Override

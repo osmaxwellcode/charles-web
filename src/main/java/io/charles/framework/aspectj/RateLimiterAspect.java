@@ -6,7 +6,7 @@ import io.charles.common.utils.StringUtils;
 import io.charles.common.utils.ip.IpUtils;
 import io.charles.framework.aspectj.lang.annotation.RateLimiter;
 import io.charles.framework.aspectj.lang.enums.LimitType;
-import io.charles.framework.ehcache.EhcacheCache;
+import io.charles.framework.cache.ICacheService;
 import org.apache.commons.lang3.ObjectUtils;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.Signature;
@@ -34,7 +34,7 @@ public class RateLimiterAspect {
     private static final Logger log = LoggerFactory.getLogger(RateLimiterAspect.class);
 
     @Autowired
-    private EhcacheCache ehcacheCache;
+    private ICacheService cacheService;
 
     // 配置织入点
     @Pointcut("@annotation(io.charles.framework.aspectj.lang.annotation.RateLimiter)")
@@ -73,18 +73,18 @@ public class RateLimiterAspect {
      * @param time  访问限制时间
      * @return
      */
-    private Long cacheScript(String key, int count, int time) {
+    private Long cacheScript(String key, long count, long time) {
         // 获取key已执行服务次数，如果已大于允许最大值直接返回。否则redis key对应的value加1，并且如果是第一次设置key，对key设置超时时间
-        Object result = ehcacheCache.getCacheObject(key);
+        Object result = cacheService.getCacheObject(key);
         Long number = Long.valueOf(1);
         if (ObjectUtils.isEmpty(result)) {
             // 记录访问次数
-            ehcacheCache.setCacheObject(key, count, time, TimeUnit.SECONDS);
+            cacheService.setCacheObject(key, count, time, TimeUnit.SECONDS);
         } else {
             number = Long.valueOf(result.toString());
             if (number <= count) {
                 // 访问次数记录+1
-                ehcacheCache.setCacheObject(key, number + 1, time, TimeUnit.SECONDS);
+                cacheService.setCacheObject(key, number + 1, time, TimeUnit.SECONDS);
             }
         }
         return number;

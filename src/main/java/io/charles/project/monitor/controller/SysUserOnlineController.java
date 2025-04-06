@@ -4,7 +4,7 @@ import io.charles.common.constant.Constants;
 import io.charles.common.utils.StringUtils;
 import io.charles.framework.aspectj.lang.annotation.Log;
 import io.charles.framework.aspectj.lang.enums.BusinessType;
-import io.charles.framework.ehcache.EhcacheCache;
+import io.charles.framework.cache.ICacheService;
 import io.charles.framework.security.LoginUser;
 import io.charles.framework.web.controller.BaseController;
 import io.charles.framework.web.domain.AjaxResult;
@@ -31,15 +31,15 @@ import java.util.List;
 @RequestMapping("/monitor/online")
 public class SysUserOnlineController extends BaseController {
     private final ISysUserOnlineService userOnlineService;
-    private final EhcacheCache ehcacheCache;
+    private final ICacheService cacheService;
 
     @PreAuthorize("@ss.hasPermi('monitor:online:list')")
     @GetMapping("/list")
     public TableDataInfo list(String ipaddr, String userName) {
-        Collection<String> keys = ehcacheCache.keys(Constants.LOGIN_TOKEN_KEY + "*");
+        Collection<String> keys = cacheService.keys(Constants.LOGIN_TOKEN_KEY + "*");
         List<SysUserOnline> userOnlineList = new ArrayList<SysUserOnline>();
         for (String key : keys) {
-            LoginUser user = ehcacheCache.getCacheObject(key);
+            LoginUser user = cacheService.getCacheObject(key);
             if (StringUtils.isNotEmpty(ipaddr) && StringUtils.isNotEmpty(userName)) {
                 if (StringUtils.equals(ipaddr, user.getIpaddr()) && StringUtils.equals(userName, user.getUsername())) {
                     userOnlineList.add(userOnlineService.selectOnlineByInfo(ipaddr, userName, user));
@@ -68,7 +68,7 @@ public class SysUserOnlineController extends BaseController {
     @Log(title = "在线用户", businessType = BusinessType.FORCE)
     @DeleteMapping("/{tokenId}")
     public AjaxResult forceLogout(@PathVariable String tokenId) {
-        ehcacheCache.deleteObject(Constants.LOGIN_TOKEN_KEY + tokenId);
+        cacheService.deleteObject(Constants.LOGIN_TOKEN_KEY + tokenId);
         return AjaxResult.success();
     }
 }

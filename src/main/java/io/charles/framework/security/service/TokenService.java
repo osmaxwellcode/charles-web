@@ -7,16 +7,16 @@ import io.charles.common.utils.ServletUtils;
 import io.charles.common.utils.StringUtils;
 import io.charles.common.utils.ip.AddressUtils;
 import io.charles.common.utils.ip.IpUtils;
-import io.charles.framework.ehcache.EhcacheCache;
+import io.charles.framework.cache.ICacheService;
 import io.charles.framework.security.LoginUser;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -45,9 +45,9 @@ public class TokenService {
      * 令牌有效期（默认30分钟）
      */
     @Value("${token.expireTime}")
-    private int expireTime;
+    private long expireTime;
     @Autowired
-    private EhcacheCache ehcacheCache;
+    private ICacheService cacheService;
 
     /**
      * 获取用户身份信息
@@ -63,7 +63,7 @@ public class TokenService {
                 // 解析对应的权限以及用户信息
                 String uuid = (String) claims.get(Constants.LOGIN_USER_KEY);
                 String userKey = getTokenKey(uuid);
-                LoginUser user = ehcacheCache.getCacheObject(userKey);
+                LoginUser user = cacheService.getCacheObject(userKey);
                 return user;
             } catch (Exception e) {
             }
@@ -86,7 +86,7 @@ public class TokenService {
     public void delLoginUser(String token) {
         if (StringUtils.isNotEmpty(token)) {
             String userKey = getTokenKey(token);
-            ehcacheCache.deleteObject(userKey);
+            cacheService.deleteObject(userKey);
         }
     }
 
@@ -131,7 +131,7 @@ public class TokenService {
         loginUser.setExpireTime(loginUser.getLoginTime() + expireTime * MILLIS_MINUTE);
         // 根据uuid将loginUser缓存
         String userKey = getTokenKey(loginUser.getToken());
-        ehcacheCache.setCacheObject(userKey, loginUser, expireTime, TimeUnit.MINUTES);
+        cacheService.setCacheObject(userKey, loginUser, expireTime, TimeUnit.MINUTES);
     }
 
     /**
@@ -169,7 +169,7 @@ public class TokenService {
      */
     private Claims parseToken(String token) {
         return Jwts.parser()
-                .setSigningKey(secret)
+                .setSigningKey(secret).build()
                 .parseClaimsJws(token)
                 .getBody();
     }

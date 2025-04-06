@@ -8,13 +8,14 @@ import io.charles.common.exception.user.UserPasswordNotMatchException;
 import io.charles.common.utils.MessageUtils;
 import io.charles.common.utils.ServletUtils;
 import io.charles.common.utils.ip.IpUtils;
-import io.charles.framework.ehcache.EhcacheCache;
+import io.charles.framework.cache.ICacheService;
 import io.charles.framework.manager.AsyncManager;
 import io.charles.framework.manager.factory.AsyncFactory;
 import io.charles.framework.security.LoginUser;
 import io.charles.project.system.domain.SysUser;
 import io.charles.project.system.service.ISysConfigService;
 import io.charles.project.system.service.ISysUserService;
+import jakarta.annotation.Resource;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -23,7 +24,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
 import java.util.Date;
 
 /**
@@ -40,7 +40,7 @@ public class SysLoginService {
     private AuthenticationManager authenticationManager;
 
     @Autowired
-    private EhcacheCache ehcacheCache;
+    private ICacheService cacheService;
 
     @Autowired
     private ISysUserService userService;
@@ -95,8 +95,8 @@ public class SysLoginService {
      */
     public void validateCaptcha(String username, String code, String uuid) {
         String verifyKey = Constants.CAPTCHA_CODE_KEY + uuid;
-        String captcha = ehcacheCache.getCacheObject(verifyKey);
-        ehcacheCache.deleteObject(verifyKey);
+        String captcha = cacheService.getCacheObject(verifyKey);
+        cacheService.deleteObject(verifyKey);
         if (captcha == null) {
             AsyncManager.me().execute(AsyncFactory.recordLogininfor(username, Constants.LOGIN_FAIL, MessageUtils.message("user.jcaptcha.expire")));
             throw new CaptchaExpireException();
@@ -112,7 +112,7 @@ public class SysLoginService {
      */
     public void recordLoginInfo(SysUser user) {
         user.setLoginIp(IpUtils.getIpAddr(ServletUtils.getRequest()));
-        user.setLoginDate(DateFormatUtils.format(new Date(),"yyyy-MM-dd HH:mm:ss"));
+        user.setLoginDate(DateFormatUtils.format(new Date(), "yyyy-MM-dd HH:mm:ss"));
         userService.updateUserProfile(user);
     }
 }

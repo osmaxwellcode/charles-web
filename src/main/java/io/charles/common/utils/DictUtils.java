@@ -2,7 +2,7 @@ package io.charles.common.utils;
 
 import cn.hutool.extra.spring.SpringUtil;
 import io.charles.common.constant.Constants;
-import io.charles.framework.ehcache.EhcacheCache;
+import io.charles.framework.cache.ICacheService;
 import io.charles.project.system.domain.SysDictData;
 
 import java.util.Collection;
@@ -26,7 +26,7 @@ public class DictUtils {
      * @param dictDatas 字典数据列表
      */
     public static void setDictCache(String key, List<SysDictData> dictDatas) {
-        SpringUtil.getBean(EhcacheCache.class).setCacheObject(getCacheKey(key), dictDatas);
+        SpringUtil.getBean(ICacheService.class).setCacheObject(getCacheKey(key), dictDatas);
     }
 
     /**
@@ -36,7 +36,7 @@ public class DictUtils {
      * @return dictDatas 字典数据列表
      */
     public static List<SysDictData> getDictCache(String key) {
-        Object cacheObj = SpringUtil.getBean(EhcacheCache.class).getCacheObject(getCacheKey(key));
+        Object cacheObj = SpringUtil.getBean(ICacheService.class).getCacheObject(getCacheKey(key));
         if (StringUtils.isNotNull(cacheObj)) {
             List<SysDictData> dictDatas = StringUtils.cast(cacheObj);
             return dictDatas;
@@ -134,15 +134,15 @@ public class DictUtils {
      * @param key 字典键
      */
     public static void removeDictCache(String key) {
-        SpringUtil.getBean(EhcacheCache.class).deleteObject(getCacheKey(key));
+        SpringUtil.getBean(ICacheService.class).deleteObject(getCacheKey(key));
     }
 
     /**
      * 清空字典缓存
      */
     public static void clearDictCache() {
-        Collection<String> keys = SpringUtil.getBean(EhcacheCache.class).keys(Constants.SYS_DICT_KEY + "*");
-        SpringUtil.getBean(EhcacheCache.class).deleteObject(keys);
+        Collection<String> keys = SpringUtil.getBean(ICacheService.class).keys(Constants.SYS_DICT_KEY + "*");
+        SpringUtil.getBean(ICacheService.class).deleteObject(keys);
     }
 
     /**

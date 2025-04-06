@@ -2,8 +2,8 @@ package io.charles.common.utils.ip;
 
 import io.charles.common.utils.StringUtils;
 import io.charles.common.utils.html.EscapeUtil;
+import jakarta.servlet.http.HttpServletRequest;
 
-import javax.servlet.http.HttpServletRequest;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
@@ -86,7 +86,7 @@ public class IpUtils {
         }
 
         byte[] bytes = new byte[4];
-        String[] elements = text.split("\\." , -1);
+        String[] elements = text.split("\\.", -1);
         try {
             long l;
             int i;

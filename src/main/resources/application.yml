@@ -33,6 +33,8 @@ server:
 
 # 日志配置
 logging:
+  pattern:
+    dateformat: yyyy-MM-dd HH:mm:ss.SSS
   file:
     name: logs/app
   level:
@@ -52,11 +54,6 @@ spring:
       max-file-size: 10MB
       # 设置总上传的文件大小
       max-request-size: 20MB
-  # 缓存配置
-  cache:
-    type: ehcache
-    ehcache:
-      config: classpath:ehcache.xml
   mvc:
     static-path-pattern: /static/**
   web:
@@ -114,7 +111,7 @@ token:
   # 令牌自定义标识
   header: Authorization
   # 令牌密钥
-  secret: abcdefghijklmnopqrstuvwxyz
+  secret: f7a3b6e4c1d2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9ea0fb1c2d3e4f5a6b7c8d9ea0fb1c2d3e4f5a6b7c8d9ea0fb1c2d3e4f5a6b7c8d9ea0fb1c2d3e4f5a6b7c8d9ea0fb1c2d3e4f5a6b7c8d9ea0fb1c2d3e4f5a6b7c8d9ea0fb1c2d3e4f5a6b7c8d9ea0fb1c2d3e4f5a6b7c8d9ea0f
   # 令牌有效期（默认30分钟）
   expireTime: 30
 
